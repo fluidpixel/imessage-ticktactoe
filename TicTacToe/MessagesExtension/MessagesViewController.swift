@@ -34,6 +34,7 @@ class MessagesViewController: MSMessagesAppViewController {
         let controller: UIViewController
         
         if presentationStyle == .compact {
+            requestPresentationStyle(.expanded)
             controller = createTTTController()
         } else {
             //if game is won have a different view, otherwise prompt the next move
@@ -88,18 +89,22 @@ class MessagesViewController: MSMessagesAppViewController {
     
     func composeMessage(session: MSSession? = nil) {
        
-        
         var components = URLComponents()
         let layout = MSMessageTemplateLayout()
         
         let localBoard = TTTBoard()
         Game.history.boardState = localBoard
         components.queryItems = localBoard.queryItems
+        if Game.winCondition.boardState.count <= 0 {
+            Game.winCondition.setupBoard(board: localBoard.queryItems)
+        }
         layout.image = localBoard.renderBoard()
         var caption = NSLocalizedString("Let's Play a Game!", comment: "")
         
         if Game.winCondition.CheckForWinCondition(board: components.queryItems!) {
             caption = NSLocalizedString("Haha I Win! Play Again?", comment: "")
+        } else if Game.winCondition.checkForStalemateCondition() {
+            caption = NSLocalizedString("It's a draw! Play Again?", comment: "")
         }
         
         layout.caption = caption
@@ -109,18 +114,9 @@ class MessagesViewController: MSMessagesAppViewController {
         let message = MSMessage(session: conversation.selectedMessage?.session ?? MSSession())
         message.url = components.url!
         message.layout = layout
-        
-        //print("Player 1: \(Game.players.player1ID), || Player 2: \(Game.players.player2ID)")
+
         print("\nLocal Player: \(Game.players.isPlayer1)")
-        
-//        if Game.players.player1ID == nil {
-//            Game.players.setupPlayer1(id: conversation.localParticipantIdentifier)
-//        } else if Game.players.player2ID == nil && conversation.localParticipantIdentifier != Game.players.player1ID { //TODO: find a better way to do this?
-//            
-//            Game.players.setupPlayer2(id: conversation.localParticipantIdentifier)
-//        }
-//        
-//        print("Player 1: \(Game.players.player1ID), || Player 2: \(Game.players.player2ID)")
+    
         
         conversation.insert(message, localizedChangeDescription: nil) { (error: NSError?) in
             if let error = error {
@@ -165,11 +161,15 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
+        
+        
         // Called when the user taps the send button.
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
+        //need to undo win condition check here
+        
     
         // Use this to clean up state related to the deleted message.
     }
@@ -192,10 +192,13 @@ class MessagesViewController: MSMessagesAppViewController {
 extension MessagesViewController : SendDelegate {
     
     func TTTViewControllerNewGame(_ controller: MoveViewController) {
+        
         composeMessage()
+        controller.initialMove = false
     }
     
     func TTTViewControllerNextMove(_ controller: MoveViewController) {
+        
         composeMessage()
     }
 }

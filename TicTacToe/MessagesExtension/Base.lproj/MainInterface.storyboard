@@ -102,7 +102,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZWw-qf-gnK"/>
                                             </subviews>
                                         </view>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="ZWw-qf-gnK" firstAttribute="width" secondItem="d2K-wk-fTQ" secondAttribute="width" id="7zi-K9-jew"/>
                                             <constraint firstItem="ZWw-qf-gnK" firstAttribute="centerX" secondItem="d2K-wk-fTQ" secondAttribute="centerX" id="MGt-X6-iwr"/>

@@ -37,7 +37,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         layout.minimumInteritemSpacing = 5
         layout.minimumLineSpacing = 5
         
-        // (note, it's critical to actually set the layout to that!!)
+        
         Grid.collectionViewLayout = layout
         
         Grid.delegate = self
@@ -69,7 +69,6 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if initialMove {
             Game.players.isPlayer1 = true
             delegate?.TTTViewControllerNewGame(self)
-            initialMove = false
         } else {
             delegate?.TTTViewControllerNextMove(self)
         }
@@ -109,12 +108,20 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         if let cell = collectionView.cellForItem(at: indexPath) as? TTTCell {
             
             if selectedIndex != nil {
-                Game.history.removeMoves(player: ((player == "0") ? player! : "1"), moves: selectedIndex!.row)
+                
+                if player == "0" {
+                    Game.history.removeMoves(player: player!, moves: selectedIndex!.row)
+                    Game.winCondition.removeResult(previousValue: 1, index: selectedIndex!.row)
+                } else {
+                    Game.history.removeMoves(player: "1", moves: selectedIndex!.row)
+                    Game.winCondition.removeResult(previousValue: -1, index: selectedIndex!.row)
+                }
             }
 
             if player == "0" {
                 
                 Game.history.addMoves(player: player!, moves: indexPath.row)
+                Game.winCondition.addResult(value: 1, index: indexPath.row)
                 DispatchQueue.main.async(execute: {
                     self.Grid.reloadData()
                 })
@@ -122,6 +129,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
                 
             } else{
                 Game.history.addMoves(player: "1", moves: indexPath.row)
+                Game.winCondition.addResult(value: -1, index: indexPath.row)
                 DispatchQueue.main.async(execute: {
                     self.Grid.reloadData()
                 })

@@ -126,7 +126,6 @@ class Players {
 }
 
 class winConditions {
-    let winPatterns: [[Int]] = [[0 ,4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
     
     let x = -1
     let o = 1
@@ -138,20 +137,12 @@ class winConditions {
     var diagResult = [0, 0]
     
     init() {
-        
+        rowsResult = Array<Int>(repeating: 0, count: rows)
+        colResult = Array<Int>(repeating: 0, count: cols)
     }
     
-    
-    func CheckForWinCondition(board: [URLQueryItem]) -> Bool {
-        /*if any row/column adds up to the number of rows/columns then O has won, the negative means X has won
-                |O|O|O| = 3
-                |X|X|O| = -1
-                |O|X|X| = -1, diag = -1
-         
-        */
-        boardState.removeAll()
-        rowsResult.removeAll()
-        colResult.removeAll()
+    func setupBoard(board: [URLQueryItem]) {
+        //init the boardstate
         
         var i = 0
         for queryItem in board {
@@ -162,33 +153,60 @@ class winConditions {
             }
         }
         
-        for i in 0 ..< rows {
-            for j in 0 ..< cols {
-                if rowsResult.count <= i {
-                    rowsResult.append(0)
-                }
-                let val = boardState[(i * 3) + j]
-
-                rowsResult[i] += val
-            }
+    }
+    
+    func addResult(value: Int, index: Int) {
+        if index < boardState.count {
+            boardState[index] = value
         }
         
-        for i in 0 ..< cols {
-            for j in 0 ..< rows {
-                if colResult.count <= i {
-                    colResult.append(0)
-                }
-                let val = boardState[(j * 3) + i]
-                
-                colResult[i] += val
-            }
+        //add result for win conditions
+        let first: Int = index / rows
+        let second = index % rows
+        
+        rowsResult[first] += value
+        colResult[second] += value
+        
+        if first == second {
+            diagResult[0] += value
         }
+        if index == 2 || index == 4 || index == 6 {
+            diagResult[1] += value
+        }
+    }
+    
+    func removeResult(previousValue: Int, index: Int) {
+        if index < boardState.count {
+            boardState[index] = 0
+        }
+        
+        //remove result from win condition
+        //add result for win conditions
+        let first: Int = index / rows
+        let second = index % rows
+        
+        rowsResult[first] -= previousValue
+        colResult[second] -= previousValue
+        
+        if first == second {
+            diagResult[0] -= previousValue
+        }
+        if index == 2 || index == 4 || index == 6 {
+            diagResult[1] -= previousValue
+        }
+    }
+    
+    func CheckForWinCondition(board: [URLQueryItem]) -> Bool {
+        /*if any row/column adds up to the number of rows/columns then O has won, the negative means X has won
+                |O|O|O| = 3
+                |X|X|O| = -1
+                |O|X|X| = -1, diag = -1
+         
+        */
+        //changing this so that it doesn't recalculate
+        
         print("Row 1: \(rowsResult[0]), Row 2: \(rowsResult[1]), Row 3: \(rowsResult[2])")
         print("Col 1: \(colResult[0]), Col 2: \(colResult[1]), Col 3: \(colResult[2])")
-        
-        //hard code diagonals for the moment
-        diagResult[0] = ((boardState[0] + boardState[4] + boardState[8]))
-        diagResult[1] = ((boardState[2] + boardState[4] + boardState[6]))
         print("Diagonal 1: \(diagResult[0]), Diagonal 2: \(diagResult[1])")
         
         if rowsResult[0] == 3 ||  rowsResult[1] == 3 || rowsResult[2] == 3 || colResult[0] == 3 || colResult[1] == 3 || colResult[2] == 3 || diagResult[0] == 3 || diagResult[1] == 3 {
@@ -198,6 +216,23 @@ class winConditions {
         }
         
         return false
+    }
+    
+    func checkForStalemateCondition() -> Bool {
+        // we need to be able to detemine if the game is no longer winnable and give the option to restart
+        //The obvious answer is when there's only one move left
+        var movesleft = 0
+        for all in boardState {
+            if all == 0 {
+                movesleft += 1
+            }
+        }
+        
+        if movesleft == 1 {
+            return true
+        }
+        return false
+        
     }
 }
 
