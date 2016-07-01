@@ -17,6 +17,8 @@ struct Game {
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    var gameEnd = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +35,31 @@ class MessagesViewController: MSMessagesAppViewController {
         
         let controller: UIViewController
         
+        let msg = conversation.selectedMessage
+        if let msgURL = msg?.url  {
+            if let URLComponents = NSURLComponents(url: msgURL, resolvingAgainstBaseURL: false), queryItems = URLComponents.queryItems {
+                for all in queryItems {
+                    if all.name == "State" {
+                        if all.value == "Win" || all.value == "Draw" { //might want more logic in here later
+                            gameEnd = true
+                        }
+                    }
+                }
+            }
+        }
+        
+        
         if presentationStyle == .compact {
             requestPresentationStyle(.expanded)
             controller = createTTTController()
-        } else {
+        } else if !gameEnd{
             //if game is won have a different view, otherwise prompt the next move
             requestPresentationStyle(.expanded)
             controller = createMoveController(conversation: conversation)
+        } else {
+            
+            controller = createTTTController()
+            gameEnd = false
         }
         
         
@@ -103,8 +123,12 @@ class MessagesViewController: MSMessagesAppViewController {
         
         if Game.winCondition.CheckForWinCondition(board: components.queryItems!) {
             caption = NSLocalizedString("Haha I Win! Play Again?", comment: "")
+            components.queryItems?.append(URLQueryItem(name: "State", value: "Win"))
+            gameEnd = true
         } else if Game.winCondition.checkForStalemateCondition() {
             caption = NSLocalizedString("It's a draw! Play Again?", comment: "")
+            components.queryItems?.append(URLQueryItem(name: "State", value: "Draw"))
+            gameEnd = true
         }
         
         layout.caption = caption
@@ -162,7 +186,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
         
-        
+        Game.history.save(clearHistory: false)
         // Called when the user taps the send button.
     }
     

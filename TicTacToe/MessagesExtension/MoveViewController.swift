@@ -24,6 +24,8 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     
     weak var delegate: SendDelegate?
     var player: String?
+    var player1Results: [Int]?
+    var player2Results: [Int]?
     
     var selectedIndex: IndexPath?
 
@@ -47,6 +49,11 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         //Grid.backgroundColor = UIColor.clear()
         // Do any additional setup after loading the view.
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Game.history.load()
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,14 +93,14 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTTCell.reuseIdentifier, for: indexPath) as? TTTCell {
             
-            let player1Results = Game.history.grabPlayerMoves(playerID: 0)
-            let player2Results = Game.history.grabPlayerMoves(playerID: 1)
+            player1Results = Game.history.grabPlayerMoves(playerID: 0)
+            player2Results = Game.history.grabPlayerMoves(playerID: 1)
             
             cell.images?.image = nil
             
-            if player1Results.contains(indexPath.row) {
+            if ((player1Results!.contains(indexPath.row))) {
                 cell.images?.image = UIImage(named: "O")
-            }else if player2Results.contains(indexPath.row) {
+            }else if ((player2Results!.contains(indexPath.row))) {
                 cell.images?.image = UIImage(named: "X")
             }
             return cell
@@ -105,7 +112,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //user has placed their O or X
         
-        if let cell = collectionView.cellForItem(at: indexPath) as? TTTCell {
+        if let _ = collectionView.cellForItem(at: indexPath) as? TTTCell {
             
             if selectedIndex != nil {
                 
