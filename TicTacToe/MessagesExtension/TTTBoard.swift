@@ -19,12 +19,12 @@ class TTTBoard {
     let background : UIImage = UIImage(named: "grid")!
     
     func setUpBoard(items: [URLQueryItem]) {
-        var i = 0
-        for queryItem in items {
+        
+        for (i, queryItem) in items.enumerated() {
             guard let value = queryItem.value else { continue }
             if queryItem.name == "Value" {
             grid[i].setImage(X_O: Int(value)!)
-            i += 1
+                
             } else if queryItem.name == "Player" {
                 let retValue = value.lowercased() == "true"
                 Game.players.isPlayer1 = !retValue
