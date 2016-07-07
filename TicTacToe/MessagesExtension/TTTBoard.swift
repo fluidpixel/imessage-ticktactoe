@@ -24,7 +24,7 @@ class TTTBoard {
             guard let value = queryItem.value else { continue }
             if queryItem.name == "Value" {
             grid[i].setImage(X_O: Int(value)!)
-                
+            
             } else if queryItem.name == "Player" {
                 let retValue = value.lowercased() == "true"
                 Game.players.isPlayer1 = !retValue

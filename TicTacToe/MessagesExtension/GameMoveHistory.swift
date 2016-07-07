@@ -15,10 +15,11 @@ class GameMoveHistory {
     
     private let defaultsKey_Player1 = "player_1Moves"
     private let defaultsKey_Player2 = "player_2Moves"
+    private let defaultsKey_LocalPlayer = "LocalPlayer"
     
     private var player1_Moves :[Int]
     private var player2_Moves :[Int] //Int -> ID of buttons in order of moves
-    
+    var savedLocalPlayer: Bool
     
     
     var boardState: TTTBoard?
@@ -26,11 +27,13 @@ class GameMoveHistory {
      init( player1 : [Int], player2 : [Int]) {
         self.player1_Moves = player1
         self.player2_Moves = player2
+        savedLocalPlayer = UserDefaults.standard().bool(forKey: defaultsKey_LocalPlayer)
     }
     
      init() {
         self.player1_Moves = [Int]()
         self.player2_Moves = [Int]()
+        savedLocalPlayer = UserDefaults.standard().bool(forKey: defaultsKey_LocalPlayer)
     }
     
     func addMoves(player: String, moves: Int) {
@@ -49,14 +52,16 @@ class GameMoveHistory {
     }
     
     func removeMoves(player: String, moves: Int) {
-        if player == "0" {
-            if player1_Moves.contains(moves) {
-                player1_Moves.removeObject(object: moves)
-            }
-            
-        }else {
-            if player2_Moves.contains(moves) {
-                player2_Moves.removeObject(object: moves)
+        if player != "" {
+            if player == "0" {
+                if player1_Moves.contains(moves) {
+                    player1_Moves.removeObject(object: moves)
+                }
+                
+            }else {
+                if player2_Moves.contains(moves) {
+                    player2_Moves.removeObject(object: moves)
+                }
             }
         }
     }
@@ -79,6 +84,8 @@ class GameMoveHistory {
                 self.player2_Moves = player2
             }
         }
+        self.savedLocalPlayer = defaults.bool(forKey: defaultsKey_LocalPlayer)
+        
     }
     
     //save/clear history
@@ -88,9 +95,11 @@ class GameMoveHistory {
         
         defaults.set((clearHistory) ? nil : player1_Moves, forKey: defaultsKey_Player1)
         defaults.set((clearHistory) ? nil : player2_Moves, forKey: defaultsKey_Player2)
+        defaults.set((clearHistory) ? true : savedLocalPlayer, forKey: defaultsKey_LocalPlayer)
     }
     
     func grabPlayerMoves(playerID: Int) -> [Int] {
+        
         if playerID == 0 {
             return player1_Moves
         } else {
@@ -228,7 +237,9 @@ class winConditions {
             }
         }
         
-        if movesleft == 1 {
+        if movesleft == 1 && !(rowsResult[0] == 2 ||  rowsResult[1] == 2 || rowsResult[2] == 2 || colResult[0] == 2 || colResult[1] == 2 || colResult[2] == 2 || diagResult[0] == 2 || diagResult[1] == 2) {
+            return true
+        } else if movesleft == 1 && !(rowsResult[0] == -2 ||  rowsResult[1] == -2 || rowsResult[2] == -2 || colResult[0] == -2 || colResult[1] == -2 || colResult[2] == -2 || diagResult[0] == -2 || diagResult[1] == -2) {
             return true
         }
         return false

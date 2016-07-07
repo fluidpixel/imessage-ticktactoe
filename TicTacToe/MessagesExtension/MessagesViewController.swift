@@ -13,6 +13,7 @@ struct Game {
     static let history = GameMoveHistory()
     static let players = Players()
     static let winCondition = winConditions()
+    static var initial = false
 }
 
 class MessagesViewController: MSMessagesAppViewController {
@@ -48,13 +49,10 @@ class MessagesViewController: MSMessagesAppViewController {
             }
         }
         
-        
         if presentationStyle == .compact {
-            requestPresentationStyle(.expanded)
             controller = createTTTController()
         } else if !gameEnd{
             //if game is won have a different view, otherwise prompt the next move
-            requestPresentationStyle(.expanded)
             controller = createMoveController(conversation: conversation)
         } else {
             
@@ -98,7 +96,11 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let controller = storyboard?.instantiateViewController(withIdentifier: MoveViewController.storyboardID) as? MoveViewController else {
             fatalError("Unable to instantiate view controller")
         }
-        let board = TTTBoard(message: conversation.selectedMessage)
+        var board = TTTBoard()
+        if conversation.selectedMessage != nil {
+             board = TTTBoard(message: conversation.selectedMessage )!
+        }
+        
         controller.delegate = self
         controller.gridValues = board
         //print("Player 1: \(Game.players.player1ID), || Player 2: \(Game.players.player2ID)")
@@ -219,12 +221,20 @@ extension MessagesViewController : SendDelegate {
         
         composeMessage()
         controller.initialMove = false
+        
     }
     
     func TTTViewControllerNextMove(_ controller: MoveViewController) {
         
         composeMessage()
+        dismiss()
+    }
+    
+    func SelectMove(_ controller: TicTacToeVC) {
+        requestPresentationStyle(.expanded)
     }
 }
+//needs another delegate here
+
 
 

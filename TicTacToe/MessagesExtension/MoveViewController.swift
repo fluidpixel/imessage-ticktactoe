@@ -39,6 +39,12 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         layout.minimumInteritemSpacing = 5
         layout.minimumLineSpacing = 5
         
+        if Game.initial {
+            
+            initialMove = true
+            player = "0"
+        }
+        
         
         Grid.collectionViewLayout = layout
         
@@ -53,7 +59,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Game.history.load()
+        //Game.history.load()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,6 +80,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     @IBAction func ConfirmPressed(_ sender: UIButton) {
         
         if initialMove {
+            Game.initial = false
             Game.players.isPlayer1 = true
             delegate?.TTTViewControllerNewGame(self)
         } else {
@@ -150,6 +157,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
 protocol SendDelegate: class {
     func TTTViewControllerNewGame(_ controller: MoveViewController)
     func TTTViewControllerNextMove(_ controller: MoveViewController)
+    func SelectMove(_ controller: TicTacToeVC)
 }
 
 class TTTCell : UICollectionViewCell {

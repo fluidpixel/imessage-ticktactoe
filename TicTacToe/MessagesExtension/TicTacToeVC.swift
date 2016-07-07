@@ -20,10 +20,9 @@ class TicTacToeVC: UIViewController{
     let width = 50
     let height = 50
     
-    @IBOutlet weak var ImageGrid: UIImageView!
-    @IBOutlet weak var AddMoveButton: UIButton!
     @IBOutlet weak var NewGameButton: UIButton!
-    @IBOutlet weak var InteractiveGrid: UICollectionView!
+    @IBOutlet weak var ContinueButton: UIButton!
+    
     
     var delegate: SendDelegate?
     
@@ -39,19 +38,34 @@ class TicTacToeVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Game.history.load()
+        if Game.history.grabPlayerMoves(playerID: 0).count <= 0 {
+            ContinueButton.isHidden = true
+        }
+        
     }
     
     @IBAction func NewGamePressed(_ sender: UIButton) {
-        guard let controller = storyboard?.instantiateViewController(withIdentifier: MoveViewController.storyboardID) as? MoveViewController else {
-            fatalError("Unable to instantiate view controller")
-        }
-        Game.history.save(clearHistory: true)
-        controller.delegate = delegate
-        controller.player = "0"
-        controller.initialMove = true
         
-        present(controller, animated: true, completion: nil)
+        Game.history.save(clearHistory: true)
+        
+        Game.players.isPlayer1 = true
+        Game.initial = true
+        
+        delegate?.SelectMove(self)
     }
+    
+    @IBAction func ContinuePressed(_ sender: UIButton) {
+       
+            Game.players.isPlayer1 = Game.history.savedLocalPlayer
+            Game.initial = false
+            
+            delegate?.SelectMove(self)
+       
+        
+        
+    }
+    
     
 }
 
