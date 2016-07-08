@@ -20,16 +20,25 @@ class TTTBoard {
     
     func setUpBoard(items: [URLQueryItem]) {
         
+        var p1 = [Int]()
+        var p2 = [Int]()
+        
         for (i, queryItem) in items.enumerated() {
             guard let value = queryItem.value else { continue }
             if queryItem.name == "Value" {
             grid[i].setImage(X_O: Int(value)!)
+                if Int(value)! == 1 {
+                    p1.append(i)
+                }else if Int(value)! == -1 {
+                    p2.append(i)
+                }
             
             } else if queryItem.name == "Player" {
                 let retValue = value.lowercased() == "true"
                 Game.players.isPlayer1 = !retValue
             }
         }
+        Game.history.save(player1: p1, player2: p2, isLocalPlayer1: Game.players.isPlayer1)
     }
     
     func createGrid() {

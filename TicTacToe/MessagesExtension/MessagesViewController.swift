@@ -55,7 +55,7 @@ class MessagesViewController: MSMessagesAppViewController {
             //if game is won have a different view, otherwise prompt the next move
             controller = createMoveController(conversation: conversation)
         } else {
-            
+            requestPresentationStyle(.compact)
             controller = createTTTController()
             gameEnd = false
         }
@@ -87,6 +87,7 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let controller = storyboard?.instantiateViewController(withIdentifier: TicTacToeVC.storyBoardID) as? TicTacToeVC else {
             fatalError("Unable to instantiate view controller")
         }
+        
         controller.delegate = self
         return controller
     }
@@ -121,7 +122,7 @@ class MessagesViewController: MSMessagesAppViewController {
             Game.winCondition.setupBoard(board: localBoard.queryItems)
         }
         layout.image = localBoard.renderBoard()
-        var caption = NSLocalizedString("Let's Play a Game!", comment: "")
+        var caption = NSLocalizedString("Make Your Move!", comment: "")
         
         if Game.winCondition.CheckForWinCondition(board: components.queryItems!) {
             caption = NSLocalizedString("Haha I Win! Play Again?", comment: "")

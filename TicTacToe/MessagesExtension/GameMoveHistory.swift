@@ -98,6 +98,19 @@ class GameMoveHistory {
         defaults.set((clearHistory) ? true : savedLocalPlayer, forKey: defaultsKey_LocalPlayer)
     }
     
+    //save newly retrieved data
+    func save(player1:[Int], player2: [Int], isLocalPlayer1: Bool) {
+        
+        let defaults = UserDefaults.standard()
+        
+        defaults.set(player1, forKey: defaultsKey_Player1)
+        defaults.set(player2, forKey: defaultsKey_Player2)
+        defaults.set(isLocalPlayer1, forKey: defaultsKey_LocalPlayer)
+        
+        player1_Moves = player1
+        player2_Moves = player2
+    }
+    
     func grabPlayerMoves(playerID: Int) -> [Int] {
         
         if playerID == 0 {
