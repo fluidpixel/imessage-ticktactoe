@@ -21,7 +21,6 @@ class TicTacToeVC: UIViewController{
     let height = 50
     
     @IBOutlet weak var NewGameButton: UIButton!
-    @IBOutlet weak var ContinueButton: UIButton!
     
     
     var delegate: SendDelegate?
@@ -39,10 +38,6 @@ class TicTacToeVC: UIViewController{
         super.viewDidLoad()
         
         Game.history.load()
-        if Game.history.grabPlayerMoves(playerID: 0).count <= 0 {
-            ContinueButton.isHidden = true
-        }
-        
     }
     
     @IBAction func NewGamePressed(_ sender: UIButton) {
@@ -55,16 +50,7 @@ class TicTacToeVC: UIViewController{
         delegate?.SelectMove(self)
     }
     
-    @IBAction func ContinuePressed(_ sender: UIButton) {
-       
-            Game.players.isPlayer1 = Game.history.savedLocalPlayer
-            Game.initial = false
-            
-            delegate?.SelectMove(self)
-       
-        
-        
-    }
+
     
     
 }

@@ -48,12 +48,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuG-fR-Cl9">
-                                <state key="normal" title="Continue Game"/>
-                                <connections>
-                                    <action selector="ContinuePressed:" destination="8el-tC-z7b" eventType="touchUpInside" id="B8n-RD-7yY"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -61,12 +55,9 @@
                             <constraint firstItem="KV3-LS-k9I" firstAttribute="centerX" secondItem="rTc-nN-Icz" secondAttribute="centerX" id="B2E-qQ-99Y"/>
                             <constraint firstItem="KV3-LS-k9I" firstAttribute="top" secondItem="22c-w0-Z1l" secondAttribute="bottom" constant="8" symbolic="YES" id="S0Z-sx-Dvt"/>
                             <constraint firstItem="rTc-nN-Icz" firstAttribute="centerX" secondItem="hJC-VP-mGH" secondAttribute="centerX" id="bme-53-Zut"/>
-                            <constraint firstItem="wuG-fR-Cl9" firstAttribute="top" secondItem="rTc-nN-Icz" secondAttribute="bottom" constant="8" id="gDD-T6-RVg"/>
-                            <constraint firstItem="wuG-fR-Cl9" firstAttribute="centerX" secondItem="rTc-nN-Icz" secondAttribute="centerX" id="vur-k5-NpY"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ContinueButton" destination="wuG-fR-Cl9" id="9tf-mb-9uh"/>
                         <outlet property="NewGameButton" destination="rTc-nN-Icz" id="Yqz-eJ-hOp"/>
                     </connections>
                 </viewController>
