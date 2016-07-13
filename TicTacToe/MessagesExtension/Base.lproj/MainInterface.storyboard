@@ -77,13 +77,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grid" translatesAutoresizingMaskIntoConstraints="NO" id="Cib-pi-u5J">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grid" translatesAutoresizingMaskIntoConstraints="NO" id="Cib-pi-u5J">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="HRh-bG-w4k"/>
                                     <constraint firstAttribute="height" constant="150" id="SwJ-pk-i5h"/>
                                 </constraints>
                             </imageView>
-                            <collectionView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YPR-8x-QhZ">
+                            <collectionView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YPR-8x-QhZ">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pWH-cz-RKA">
                                     <size key="itemSize" width="45" height="45"/>
@@ -126,15 +126,22 @@
                                     <action selector="ConfirmPressed:" destination="fyD-ec-aKW" eventType="touchUpInside" id="osb-9L-fwq"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wC2-RI-R5o" customClass="SKView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gOI-f0-sK0" firstAttribute="leading" secondItem="YPR-8x-QhZ" secondAttribute="trailing" constant="1" id="15w-w4-vsu"/>
                             <constraint firstItem="YPR-8x-QhZ" firstAttribute="height" secondItem="Cib-pi-u5J" secondAttribute="height" id="ABg-uF-Bmd"/>
+                            <constraint firstItem="wC2-RI-R5o" firstAttribute="centerX" secondItem="FjY-go-2TF" secondAttribute="centerX" id="Ile-eU-B4M"/>
                             <constraint firstItem="YPR-8x-QhZ" firstAttribute="leading" secondItem="Cib-pi-u5J" secondAttribute="leading" id="JTP-oO-pBf"/>
+                            <constraint firstItem="wC2-RI-R5o" firstAttribute="width" secondItem="FjY-go-2TF" secondAttribute="width" id="M38-42-opM"/>
                             <constraint firstItem="Cib-pi-u5J" firstAttribute="top" secondItem="cdN-ua-l5m" secondAttribute="bottom" constant="8" symbolic="YES" id="O7a-3S-2fO"/>
                             <constraint firstItem="cdN-ua-l5m" firstAttribute="centerX" secondItem="Cib-pi-u5J" secondAttribute="centerX" id="P0D-67-wKs"/>
+                            <constraint firstItem="wC2-RI-R5o" firstAttribute="centerY" secondItem="FjY-go-2TF" secondAttribute="centerY" id="cAI-CB-uyu"/>
                             <constraint firstItem="YPR-8x-QhZ" firstAttribute="top" secondItem="Cib-pi-u5J" secondAttribute="top" id="eIL-uC-Oca"/>
+                            <constraint firstItem="wC2-RI-R5o" firstAttribute="height" secondItem="FjY-go-2TF" secondAttribute="height" id="eZA-eK-yKU"/>
                             <constraint firstItem="gOI-f0-sK0" firstAttribute="top" secondItem="cdN-ua-l5m" secondAttribute="bottom" constant="8" symbolic="YES" id="pQy-lJ-O9F"/>
                             <constraint firstItem="cdN-ua-l5m" firstAttribute="top" secondItem="y4k-rh-imy" secondAttribute="bottom" constant="8" symbolic="YES" id="q38-Cq-lMI"/>
                             <constraint firstItem="Cib-pi-u5J" firstAttribute="centerX" secondItem="FjY-go-2TF" secondAttribute="centerX" id="vrG-LE-g9H"/>
@@ -146,6 +153,7 @@
                         <outlet property="ConfirmButton" destination="gOI-f0-sK0" id="x6R-Ov-Xl0"/>
                         <outlet property="Grid" destination="YPR-8x-QhZ" id="50Y-ip-Yrc"/>
                         <outlet property="Label" destination="cdN-ua-l5m" id="GRw-z3-JZn"/>
+                        <outlet property="skView" destination="wC2-RI-R5o" id="bAU-gn-WeQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w5z-Mm-Or1" userLabel="First Responder" sceneMemberID="firstResponder"/>

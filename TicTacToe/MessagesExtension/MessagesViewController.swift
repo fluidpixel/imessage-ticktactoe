@@ -55,7 +55,8 @@ class MessagesViewController: MSMessagesAppViewController {
             //if game is won have a different view, otherwise prompt the next move
             controller = createMoveController(conversation: conversation)
         } else {
-            requestPresentationStyle(.compact)
+            
+            Game.initial = true
             controller = createTTTController()
             gameEnd = false
         }

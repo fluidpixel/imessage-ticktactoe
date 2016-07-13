@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SpriteKit
+import SceneKit
 
 class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
@@ -28,6 +30,9 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     var player2Results: [Int]?
     
     var selectedIndex: IndexPath?
+    var gridSprite: BoardScene?
+
+    @IBOutlet weak var skView: SKView!
 
 
     override func viewDidLoad() {
@@ -44,8 +49,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
             initialMove = true
             player = "0"
         }
-        
-        
+
         Grid.collectionViewLayout = layout
         
         Grid.delegate = self
@@ -59,6 +63,18 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        skView.showsFPS = true
+//        gridSprite = BoardScene(size: self.view.bounds.size)
+//        
+//        gridSprite?.scaleMode = .aspectFill
+        if let scene = SKScene(fileNamed: "TTTScene") as? BoardScene {
+            scene.scaleMode = .aspectFill
+           // scene.anchorPoint = CGPoint(x: scene.anchorPoint.x, y: 0)
+            skView.presentScene(scene)
+        }
+        
+        
         //Game.history.load()
     }
 
