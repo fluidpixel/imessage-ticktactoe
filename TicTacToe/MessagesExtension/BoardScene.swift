@@ -20,6 +20,24 @@ class BoardScene: GameScene {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        let player1Moves = Game.history.grabPlayerMoves(playerID: 0)
+        let player2Moves = Game.history.grabPlayerMoves(playerID: 1)
+        
+        
+        for all in player1Moves {
+            if let sprite = self.childNode(withName: "\(all)") {
+                let action = SKAction.setTexture(SKTexture(imageNamed: "O"))
+                sprite.run(action)
+            }
+        }
+        
+        for all in player2Moves {
+            if let sprite = self.childNode(withName: "\(all)") {
+                let action = SKAction.setTexture(SKTexture(imageNamed: "X"))
+                sprite.run(action)
+            }
+        }
+        
     }
 
     
