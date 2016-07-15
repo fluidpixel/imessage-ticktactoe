@@ -8,12 +8,14 @@
 
 import UIKit
 import Messages
+import SpriteKit
 
 struct Game {
     static let history = GameMoveHistory()
     static let players = Players()
     static let winCondition = winConditions()
     static var initial = false
+    static var sceneTreeToRender: [SKSpriteNode]?
 }
 
 class MessagesViewController: MSMessagesAppViewController {

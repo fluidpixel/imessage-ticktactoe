@@ -259,12 +259,3 @@ class winConditions {
         
     }
 }
-
-extension Array where Element: Equatable {
-    
-    mutating func removeObject(object: Element) {
-        if let index = index(of: object) {
-            remove(at: index)
-        }
-    }
-}

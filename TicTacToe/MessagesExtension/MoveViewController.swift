@@ -10,11 +10,9 @@ import UIKit
 import SpriteKit
 import SceneKit
 
-class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+class MoveViewController: UIViewController{
     
     @IBOutlet weak var Board: UIImageView!
-    
-    @IBOutlet weak var Grid: UICollectionView!
     
     @IBOutlet weak var Label: UILabel!
     
@@ -38,26 +36,11 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 45 , height: 45)
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
-        
         if Game.initial {
             
             initialMove = true
             player = "0"
         }
-
-        Grid.collectionViewLayout = layout
-        
-        Grid.delegate = self
-        Grid.dataSource = self
-        Board.image = UIImage(named: "grid")
-        Label.text = "Player \(Int(player!)! + 1) Make Your Move!"
-        //Grid.backgroundColor = UIColor.clear()
-        // Do any additional setup after loading the view.
         
     }
     
@@ -70,6 +53,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
 //        gridSprite?.scaleMode = .aspectFill
         if let scene = SKScene(fileNamed: "TTTScene") as? BoardScene {
             scene.scaleMode = .aspectFill
+            scene.sender = self
            // scene.anchorPoint = CGPoint(x: scene.anchorPoint.x, y: 0)
             skView.presentScene(scene)
         }
@@ -93,7 +77,7 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         // Pass the selected object to the new view controller.
     }
     */
-    @IBAction func ConfirmPressed(_ sender: UIButton) {
+    func ConfirmPressed() {
         
         if initialMove {
             Game.initial = false
@@ -105,69 +89,6 @@ class MoveViewController: UIViewController, UICollectionViewDelegateFlowLayout, 
         
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TTTCell.reuseIdentifier, for: indexPath) as? TTTCell {
-            
-            player1Results = Game.history.grabPlayerMoves(playerID: 0)
-            player2Results = Game.history.grabPlayerMoves(playerID: 1)
-            
-            cell.images?.image = nil
-            
-            if ((player1Results!.contains(indexPath.row))) {
-                cell.images?.image = UIImage(named: "O")
-            }else if ((player2Results!.contains(indexPath.row))) {
-                cell.images?.image = UIImage(named: "X")
-            }
-            return cell
-        }
-        
-        return UICollectionViewCell()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //user has placed their O or X
-        
-        if let _ = collectionView.cellForItem(at: indexPath) as? TTTCell {
-            
-            if selectedIndex != nil {
-                
-                if player == "0" {
-                    Game.history.removeMoves(player: player!, moves: selectedIndex!.row)
-                    Game.winCondition.removeResult(previousValue: 1, index: selectedIndex!.row)
-                } else {
-                    Game.history.removeMoves(player: "1", moves: selectedIndex!.row)
-                    Game.winCondition.removeResult(previousValue: -1, index: selectedIndex!.row)
-                }
-            }
-
-            if player == "0" {
-                
-                Game.history.addMoves(player: player!, moves: indexPath.row)
-                Game.winCondition.addResult(value: 1, index: indexPath.row)
-                DispatchQueue.main.async(execute: {
-                    self.Grid.reloadData()
-                })
-                
-                
-            } else{
-                Game.history.addMoves(player: "1", moves: indexPath.row)
-                Game.winCondition.addResult(value: -1, index: indexPath.row)
-                DispatchQueue.main.async(execute: {
-                    self.Grid.reloadData()
-                })
-            }
-            selectedIndex = indexPath
-        }
-        
-    }
 }
 
 protocol SendDelegate: class {

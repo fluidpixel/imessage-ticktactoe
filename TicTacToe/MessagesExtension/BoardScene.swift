@@ -13,38 +13,13 @@ class BoardScene: GameScene {
     
     var board = [SKNode]() // nine nodes
     let backImage = SKSpriteNode(imageNamed: "grid")
+    var selectedIndex: Int?
+    weak var sender: MoveViewController?
     
-//    override init(size: CGSize) {
-//        super.init(size: size)
-//        
-//       
-//        
-//        
-//        
-////        let width = backImage.size.width
-////        let height = backImage.size.height
-//        
-////        backImage.position = CGPoint(x: 100, y: 100)
-////        backImage.anchorPoint = CGPoint()
-////        addChild(backImage)
-////        
-////        for i in 0 ..< 9 {
-////            
-////            let y = (height / 3 ) * CGFloat(Int(CGFloat(i) / 3)) + backImage.position.y
-////            let x =  (width / 3) * (CGFloat(i).truncatingRemainder(dividingBy: 3)) + backImage.position.x
-////            var sprite = SKSpriteNode(imageNamed: "O")
-////            sprite.position = CGPoint(x: x, y: y)
-////            sprite.anchorPoint = CGPoint()
-////            sprite.size = CGSize(width: width / 3, height: height / 3)
-////            board.append(sprite)
-////            addChild(sprite)
-////        }
-//    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        board.append(contentsOf: self.children)
     }
 
     
@@ -53,23 +28,110 @@ class BoardScene: GameScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        //HANDLE GAME SPECIFIC LOGIC HERE
         
         for any: AnyObject in touches {
             if let touch = any as? UITouch {
                 
-                let location = touch.location(in: self.view)
+                let location = touch.location(in: self)
                 
-                for node in board {
+                for i in 0..<self.children.count {
                     
-                    if node.contains(location) {
+                    print(self.children[i].name)
+                    print(self.children[i].position)
+                    print(self.children[i].frame.size)
+                    
+                    if self.children[i].contains(location) {
+                        let name = self.children[i].name!
+                        if name != "grid" && name != "LabelConfirm" {
                         //TODO: handle texture change and logic
-                        print("TOUCH")
-                        
+                        print("TOUCHED point \(self.children[i].name)" )
+                        if let sprite = self.childNode(withName: name) {
+                            if Game.players.isPlayer1 {
+                                let action = SKAction.setTexture(SKTexture(imageNamed: "O"))
+                                sprite.run(action)
+                                
+                                if selectedIndex != nil {
+                                    Game.history.removeMoves(player: "0", moves: selectedIndex!)
+                                     Game.winCondition.removeResult(previousValue: 1, index: selectedIndex!)
+                                    if let spriteToRemove = self.childNode(withName: "\(selectedIndex!)") {
+                                        let action = SKAction.setTexture(SKTexture(imageNamed: "blank"))
+                                        spriteToRemove.run(action)
+                                    }
+                                }
+                                
+                                Game.history.addMoves(player: "0", moves: Int(name)!)
+                                Game.winCondition.addResult(value: 1, index: Int(name)!)
+                                
+                            } else {
+                                let action = SKAction.setTexture(SKTexture(imageNamed: "X"))
+                                sprite.run(action)
+                                
+                                if selectedIndex != nil {
+                                    Game.history.removeMoves(player: "1", moves: selectedIndex!)
+                                    Game.winCondition.removeResult(previousValue: -1, index: selectedIndex!)
+                                    
+                                    if let spriteToRemove = self.childNode(withName: "\(selectedIndex!)") {
+                                        let action = SKAction.setTexture(SKTexture(imageNamed: "blank"))
+                                        spriteToRemove.run(action)
+                                    }
+                                }
+                                Game.history.addMoves(player: "1", moves: Int(name)!)
+                                Game.winCondition.addResult(value: -1, index: Int(name)!)
+                                
+                            }
+                            selectedIndex = Int(name)!
+                            
+                        }
+                        }
+                        if name == "LabelConfirm" {
+                            //send scenetree over
+                            var nodeTree = self.children
+                            var nodesToRemove = [SKNode]()
+                            enumerateChildNodes(withName: "Label*", using: { (node, _) in
+                                nodesToRemove.append(node)
+                            })
+                            
+                            for all in nodesToRemove {
+                                nodeTree.removeObject(object: all)
+                            }
+                            Game.sceneTreeToRender = nodeTree as? [SKSpriteNode]
+                            sender?.ConfirmPressed()
+                        }
                     }
                 }
             }
         }
     }
+    
+//    if selectedIndex != nil {
+//    
+//    if player == "0" {
+//
+//    } else {
+//    Game.history.removeMoves(player: "1", moves: selectedIndex!.row)
+//    Game.winCondition.removeResult(previousValue: -1, index: selectedIndex!.row)
+//    }
+//    }
+//    
+//    if player == "0" {
+//    
+//
+//    DispatchQueue.main.async(execute: {
+//    self.Grid.reloadData()
+//    })
+//    
+//    
+//    } else{
+//    Game.history.addMoves(player: "1", moves: indexPath.row)
+//    Game.winCondition.addResult(value: -1, index: indexPath.row)
+//    DispatchQueue.main.async(execute: {
+//    self.Grid.reloadData()
+//    })
+//    }
+//    selectedIndex = indexPath
     
     
 }

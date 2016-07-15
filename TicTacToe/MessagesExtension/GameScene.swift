@@ -24,5 +24,10 @@ class GameScene: SKScene {
         //fatalError("init(coder:) has not been implemented")
     }
     
-    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //GENERIC LOGIC HERE
+        
+        
+        
+    }
 }

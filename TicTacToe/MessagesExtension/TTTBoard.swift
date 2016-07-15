@@ -12,6 +12,7 @@
 import Foundation
 import UIKit
 import Messages
+import SpriteKit
 
 class TTTBoard {
     //example grid for testing has been added
@@ -88,7 +89,7 @@ class TTTBoard {
     }
     
     func renderBoard() -> UIImage? {
-        guard let partsImage = renderParts() else { return nil }
+        guard let partsImage = renderFromSKScene(scene: Game.sceneTreeToRender) else { return nil }
         
         let outputSize: CGSize
         let gridSize: CGSize
@@ -113,6 +114,37 @@ class TTTBoard {
         }
         
         return image
+    }
+    
+    func renderFromSKScene(scene: [SKSpriteNode]?) -> UIImage?{
+        // take the nodes from a scenegraph and spit out an image
+        
+        if let backNode = scene?.filter({$0.name == "grid"}).first {
+            let width = backNode.frame.width
+            let height = backNode.frame.height
+            
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), false, 0.0)
+            let imageToDraw = UIImage(cgImage: backNode.texture!.cgImage())
+            imageToDraw.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: width, height: height)))
+            var remainingChildren = scene
+            remainingChildren!.removeObject(object: backNode)
+            for all in remainingChildren! {
+                print(all.name)
+                let image = UIImage(cgImage: all.texture!.cgImage())
+                print(all.position)
+                print(backNode.position)
+                print(all.position - backNode.position)
+                image.draw(in: CGRect(origin: CGPoint(x: all.position.x - backNode.position.x ,y: all.position.y - (all.frame.height / 2)), size: CGSize(width: all.frame.width, height: all.frame.height)))
+                
+                
+                
+            }
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return newImage
+            
+        }
+        return nil
     }
     
     //puts together the pieces of the board
@@ -195,4 +227,17 @@ enum VALUES : Int { // let's make this less confusing
     case O = 1
     case BLANK = 0
     
+}
+
+extension Array where Element: Equatable {
+    mutating func removeObject(object: Element) {
+        if let index = index(of: object) {
+            remove(at: index)
+        }
+    }
+}
+
+func -(left: CGPoint, right: CGPoint) -> CGPoint {
+    
+    return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
