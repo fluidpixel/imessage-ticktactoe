@@ -73,15 +73,15 @@ class BoardScene: GameScene {
                 
                 for i in 0..<self.children.count {
                     
-                    print(self.children[i].name)
-                    print(self.children[i].position)
-                    print(self.children[i].frame.size)
+//                    print(self.children[i].name)
+//                    print(self.children[i].position)
+//                    print(self.children[i].frame.size)
                     
                     if self.children[i].contains(location) {
                         let name = self.children[i].name!
                         if name != "grid" && name != "LabelConfirm" {
                         //TODO: handle texture change and logic
-                        print("TOUCHED point \(self.children[i].name)" )
+                        //print("TOUCHED point \(self.children[i].name)" )
                         if let sprite = self.childNode(withName: name) {
                             if Game.players.isPlayer1 {
                                 let action = SKAction.setTexture(SKTexture(imageNamed: "O"))

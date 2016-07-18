@@ -134,7 +134,8 @@ class TTTBoard {
                 print(all.position)
                 print(backNode.position)
                 print(all.position - backNode.position)
-                image.draw(in: CGRect(origin: CGPoint(x: all.position.x - backNode.position.x ,y: all.position.y - (all.frame.height / 2)), size: CGSize(width: all.frame.width, height: all.frame.height)))
+                //coordinates in the y-axis are flipped for some reason
+                image.draw(in: CGRect(origin: CGPoint(x: all.position.x - backNode.position.x ,y: height - ((all.position.y + all.frame.height) - backNode.position.y)), size: CGSize(width: all.frame.width, height: all.frame.height)))
                 
                 
                 

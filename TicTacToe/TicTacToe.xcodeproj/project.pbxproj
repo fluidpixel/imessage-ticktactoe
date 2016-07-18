@@ -10,6 +10,8 @@
 		B90359EE1D1D52EF00051DF7 /* MoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90359ED1D1D52EF00051DF7 /* MoveViewController.swift */; };
 		B94604141D364E82009E8BF3 /* TTTScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B94604131D364E82009E8BF3 /* TTTScene.sks */; };
 		B94604161D36535F009E8BF3 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94604151D36535F009E8BF3 /* GameScene.swift */; };
+		B965F4341D3D20F400D0A9CC /* WinCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B965F4331D3D20F400D0A9CC /* WinCondition.swift */; };
+		B965F4361D3D229000D0A9CC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B965F4351D3D229000D0A9CC /* Player.swift */; };
 		B97E371C1D1AA03B00A59D13 /* TicTacToeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E371B1D1AA03B00A59D13 /* TicTacToeVC.swift */; };
 		B97E371E1D1AA5AD00A59D13 /* TTTBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E371D1D1AA5AD00A59D13 /* TTTBoard.swift */; };
 		B98593F11D1AD66000232B07 /* GameMoveHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98593F01D1AD66000232B07 /* GameMoveHistory.swift */; };
@@ -50,6 +52,8 @@
 		B90359ED1D1D52EF00051DF7 /* MoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveViewController.swift; sourceTree = "<group>"; };
 		B94604131D364E82009E8BF3 /* TTTScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TTTScene.sks; sourceTree = "<group>"; };
 		B94604151D36535F009E8BF3 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		B965F4331D3D20F400D0A9CC /* WinCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WinCondition.swift; sourceTree = "<group>"; };
+		B965F4351D3D229000D0A9CC /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B97E371B1D1AA03B00A59D13 /* TicTacToeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicTacToeVC.swift; sourceTree = "<group>"; };
 		B97E371D1D1AA5AD00A59D13 /* TTTBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTTBoard.swift; sourceTree = "<group>"; };
 		B98593F01D1AD66000232B07 /* GameMoveHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMoveHistory.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				B9FE62091D33C1D8009D0C16 /* BoardScene.swift */,
 				B94604131D364E82009E8BF3 /* TTTScene.sks */,
 				B94604151D36535F009E8BF3 /* GameScene.swift */,
+				B965F4331D3D20F400D0A9CC /* WinCondition.swift */,
+				B965F4351D3D229000D0A9CC /* Player.swift */,
 			);
 			path = MessagesExtension;
 			sourceTree = "<group>";
@@ -239,10 +245,12 @@
 			files = (
 				B90359EE1D1D52EF00051DF7 /* MoveViewController.swift in Sources */,
 				B97E371E1D1AA5AD00A59D13 /* TTTBoard.swift in Sources */,
+				B965F4341D3D20F400D0A9CC /* WinCondition.swift in Sources */,
 				B9BED80D1D14648F005DB679 /* MessagesViewController.swift in Sources */,
 				B9FE620A1D33C1D8009D0C16 /* BoardScene.swift in Sources */,
 				B97E371C1D1AA03B00A59D13 /* TicTacToeVC.swift in Sources */,
 				B94604161D36535F009E8BF3 /* GameScene.swift in Sources */,
+				B965F4361D3D229000D0A9CC /* Player.swift in Sources */,
 				B98593F11D1AD66000232B07 /* GameMoveHistory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

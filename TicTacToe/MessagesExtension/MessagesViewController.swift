@@ -119,7 +119,6 @@ class MessagesViewController: MSMessagesAppViewController {
         let layout = MSMessageTemplateLayout()
         
         let localBoard = TTTBoard()
-        Game.history.boardState = localBoard
         components.queryItems = localBoard.queryItems
         if Game.winCondition.boardState.count <= 0 {
             Game.winCondition.setupBoard(board: localBoard.queryItems)
