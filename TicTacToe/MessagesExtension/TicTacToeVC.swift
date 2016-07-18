@@ -37,7 +37,7 @@ class TicTacToeVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Game.history.load()
+        //Game.history.load()
     }
     
     @IBAction func NewGamePressed(_ sender: UIButton) {

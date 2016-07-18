@@ -12,12 +12,6 @@ import SceneKit
 
 class MoveViewController: UIViewController{
     
-    @IBOutlet weak var Board: UIImageView!
-    
-    @IBOutlet weak var Label: UILabel!
-    
-    @IBOutlet weak var ConfirmButton: UIButton!
-    
     static let storyboardID = "Move"
     var gridValues: TTTBoard?
     var initialMove = false
@@ -48,18 +42,14 @@ class MoveViewController: UIViewController{
         super.viewWillAppear(animated)
         
         skView.showsFPS = true
-//        gridSprite = BoardScene(size: self.view.bounds.size)
-//        
-//        gridSprite?.scaleMode = .aspectFill
+
         if let scene = SKScene(fileNamed: "TTTScene") as? BoardScene {
             scene.scaleMode = .aspectFill
             scene.sender = self
-           // scene.anchorPoint = CGPoint(x: scene.anchorPoint.x, y: 0)
+           
             skView.presentScene(scene)
         }
-        
-        
-        //Game.history.load()
+        Game.history.load()
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,16 +57,6 @@ class MoveViewController: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func ConfirmPressed() {
         
         if initialMove {

@@ -37,6 +37,22 @@ class BoardScene: GameScene {
                 sprite.run(action)
             }
         }
+        if let sprite = self.childNode(withName: "LabelName") as? SKLabelNode {
+            if Game.players.isPlayer1 {
+                
+                    let action = SKAction.run({
+                        sprite.text = "Player 1 - Make Your Move!"
+                    })
+                    sprite.run(action)
+                
+            } else {
+                let action = SKAction.run({
+                    sprite.text = "Player 2 - Make Your Move!"
+                })
+                sprite.run(action)
+                
+            }
+        }
         
     }
 
