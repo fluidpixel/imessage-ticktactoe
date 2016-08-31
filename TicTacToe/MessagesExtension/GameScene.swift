@@ -30,4 +30,25 @@ class GameScene: SKScene {
         
         
     }
+    
+    func NodeHit(_ touches: Set<UITouch>) -> [String] {
+        
+        var nodeNames = [String]()
+        
+        for any: AnyObject in touches {
+            if let touch = any as? UITouch {
+                
+                let location = touch.location(in: self)
+                
+                for i in 0..<self.children.count {
+                    
+                    if self.children[i].contains(location) {
+                        nodeNames.append(self.children[i].name!)
+                        
+                    }
+                }
+            }
+        }
+        return nodeNames
+    }
 }

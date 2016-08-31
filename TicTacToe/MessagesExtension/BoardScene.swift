@@ -63,29 +63,18 @@ class BoardScene: GameScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        let nodeNames = NodeHit(touches)
         
         //HANDLE GAME SPECIFIC LOGIC HERE
-        
-        for any: AnyObject in touches {
-            if let touch = any as? UITouch {
-                
-                let location = touch.location(in: self)
-                
-                for i in 0..<self.children.count {
-                    
-//                    print(self.children[i].name)
-//                    print(self.children[i].position)
-//                    print(self.children[i].frame.size)
-                    
-                    if self.children[i].contains(location) {
-                        let name = self.children[i].name!
-                        if name != "grid" && name != "LabelConfirm" {
-                        //TODO: handle texture change and logic
-                        //print("TOUCHED point \(self.children[i].name)" )
-                        if let sprite = self.childNode(withName: name) {
-                            if Game.players.isPlayer1 {
-                                let action = SKAction.setTexture(SKTexture(imageNamed: "O"))
-                                sprite.run(action)
+        for name in nodeNames {
+            
+            if name != "grid" && name != "LabelConfirm" {
+            //TODO: handle texture change and logic
+            //print("TOUCHED point \(self.children[i].name)" )
+                if let sprite = self.childNode(withName: name) {
+                    if Game.players.isPlayer1 {
+                        let action = SKAction.setTexture(SKTexture(imageNamed: "O"))
+                            sprite.run(action)
                                 
                                 if selectedIndex != nil {
                                     Game.history.removeMoves(player: "0", moves: selectedIndex!)
@@ -135,40 +124,11 @@ class BoardScene: GameScene {
                             sender?.ConfirmPressed()
                         }
                     }
-                }
-            }
-        }
     }
-    
-//    if selectedIndex != nil {
-//    
-//    if player == "0" {
-//
-//    } else {
-//    Game.history.removeMoves(player: "1", moves: selectedIndex!.row)
-//    Game.winCondition.removeResult(previousValue: -1, index: selectedIndex!.row)
-//    }
-//    }
-//    
-//    if player == "0" {
-//    
-//
-//    DispatchQueue.main.async(execute: {
-//    self.Grid.reloadData()
-//    })
-//    
-//    
-//    } else{
-//    Game.history.addMoves(player: "1", moves: indexPath.row)
-//    Game.winCondition.addResult(value: -1, index: indexPath.row)
-//    DispatchQueue.main.async(execute: {
-//    self.Grid.reloadData()
-//    })
-//    }
-//    selectedIndex = indexPath
-    
-    
 }
+    
+    
+
 
 extension SKScene {
     
